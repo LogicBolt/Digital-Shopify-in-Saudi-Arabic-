@@ -1,0 +1,126 @@
+<style>
+  .hero {
+    min-height: 560px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  .contentmain:after {
+    border: 7px solid transparent;
+    bottom: 0;
+    box-shadow: inset 0 0 0 2px #fff;
+    content: '';
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: auto;
+    z-index: 3;
+  }
+
+  .content {
+    color: #121212;
+    z-index: 4;
+    padding: 2rem;
+
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+</style>
+<div class="container w-full mx-auto px-4 py-10">
+    <div class=" item-center justify-center pb-10">
+        <p class="mx-auto text-center text-2xl sm:text-4xl max-w-screen-md">{{ section.settings.sectionheading }}</p>
+    </div>
+  <div class="flex flex-col sm:flex-row space-y-8 sm:space-y-0 sm:space-x-8">
+    <!-- First Column -->
+    <div
+      class="w-full sm:w-1/2 flex justify-center items-center hero"
+      style="background-image: url({{ section.settings.bgImg1 | image_url }});"
+    >
+      <a href="{{ section.settings.linkUrl }}">
+        <div class="contentmain">
+          <div class="content backdrop-blur-sm bg-white/30 text-center">
+            <h2 class="text-4xl font-bold mb-4">{{ section.settings.txtHeading }}</h2>
+            <p class="mb-6">{{ section.settings.txtSubheading }}</p>
+            <button class="bg-[#585065] text-white px-4 py-2">{{ 'general.shop_now' | t }}</button>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Second Column -->
+    <div
+      class="w-full sm:w-1/2 flex justify-center items-center hero"
+      style="background-image: url({{ section.settings.bgImg2 | image_url }});"
+    >
+      <a href="{{ section.settings.linkUrl2 }}">
+        <div class="contentmain ">
+          <div class="content backdrop-blur-sm bg-white/30 text-center">
+            <h2 class="text-4xl font-bold mb-4">{{ section.settings.txtHeading2 }}</h2>
+            <p class="mb-6">{{ section.settings.txtSubheading2 }}</p>
+            <button class="bg-[#585065] text-white px-4 py-2">{{ 'general.shop_now' | t }}</button>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Promo Products 2 col",
+  "tag": "section",
+  "settings": [
+    {
+        "type": "text",
+        "id": "sectionheading",
+        "label": "Section Heading"
+    },
+    {
+      "id": "bgImg1",
+      "label": "Background Image 1",
+      "type": "image_picker"
+    },
+    {
+      "type": "text",
+      "id": "txtHeading",
+      "label": "Heading"
+    },
+    {
+      "id": "txtSubheading",
+      "label": "Sub Heading",
+      "type": "text"
+    },
+    {
+      "id": "linkUrl",
+      "label": "Button Link",
+      "type": "text"
+    },
+    {
+      "id": "bgImg2",
+      "label": "Background Image 2",
+      "type": "image_picker"
+    },
+    {
+      "type": "text",
+      "id": "txtHeading2",
+      "label": "Heading 2nd column"
+    },
+    {
+      "id": "txtSubheading2",
+      "label": "Sub Heading 2nd column",
+      "type": "text"
+    },
+    {
+      "id": "linkUrl2",
+      "label": "Button Link 2nd column",
+      "type": "text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Promo Products 2 col"
+    }
+  ]
+}
+{% endschema %}

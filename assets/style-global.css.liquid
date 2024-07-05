@@ -1,0 +1,48 @@
+@font-face {
+    font-family: "bodyfont";
+    src: url("{{ settings.type_body_font | font_url }}") format("woff2");
+  }
+  @font-face {
+    font-family: "headerfont";
+    src: url("{{ settings.type_header_font | font_url }}") format("woff2");
+  }
+
+
+body {
+    font-family: bodyfont,"{{ settings.type_body_font.fallback_families }}" !important;
+}
+span, p, label, option, a {
+    font-family: bodyfont,"{{ settings.type_body_font.fallback_families }}" !important;
+}
+p{
+  line-height: inherit;
+}
+article h1{
+  font-size: 1.875rem !important;
+}
+article h2{
+  font-size: 1.5rem !important;
+}
+article h3{
+  font-size: 1.25rem !important;
+}
+article h4{
+  font-size: 1.125rem !important;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: headerfont, "{{ settings.type_header_font.fallback_families }}" !important;
+    font-weight: bold !important;
+    line-height: 3rem;
+}
+article p{
+  color: rgb(75 85 99);
+  padding: 0.5rem 0;
+}
+li{
+  color: rgb(75 85 99);
+}
+.bg-primary-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(227 235 247/var(--tw-bg-opacity));
+}
+

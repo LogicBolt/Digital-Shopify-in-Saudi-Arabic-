@@ -1,0 +1,27 @@
+{%- if product and product != empty -%}
+  <a href="{{ product.url }}" class="card-wrapper border group block relative bg-white shadow-md bg-clip-border rounded-xl">
+    <div class="card group aspect-w-4 aspect-h-3">
+      {% if product.featured_media %}
+        <div class="card_image relative">
+          {{ product.featured_media | image_url: width: 900 | image_tag: loading: 'lazy', class: 'w-full h-full object-cover rounded-xl' }}
+          {% if product.media[1] != blank %}
+            {{ product.media[1] | image_url: width: 900 | image_tag: loading: 'lazy', class: 'absolute inset-0 hidden group-hover:block w-full h-full object-cover rounded-xl' }}
+          {% endif %}
+        </div>
+      {% else %}
+        <div class="card_image rounded-xl">
+          {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      {% endif %}
+        
+      <div class="card-content absolute bottom-0 left-0 right-0 p-2 bg-white rounded-xl">
+        <h3 class="card__title text-2xl font-bold tracking-tight px-2 pb-2">{{ product.title }}</h3>
+        {% render 'price-element', product: product, class: 'px-2 pb-2' %}
+       
+      </div>
+    </div>
+  </a>
+  {%- else -%}
+  <h2> {{ 'collection_template.empty' | t }} </h2>
+  {%- endif -%}
+  

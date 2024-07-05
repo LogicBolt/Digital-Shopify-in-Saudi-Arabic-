@@ -1,0 +1,42 @@
+<div class="relative w-full h-96" id="googleMapContainer">
+    {{ section.settings.google_map_url }}
+</div>
+
+{% schema %}
+{
+  "name": "Google Map",
+  "tag": "section",
+  "class": "googlemap",
+  "settings": [
+    {
+      "type": "textarea",
+      "label": "Google Map iframe",
+      "id": "google_map_url",
+      "info": "Please enter iframe code."
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "Google Map"
+    }
+  ]
+}
+{% endschema %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Select the iframe
+        var googleMapIframe = document.querySelector('#googleMapContainer iframe');
+
+        if (googleMapIframe) {
+             // Remove existing width and height attributes
+             googleMapIframe.removeAttribute('width');
+             googleMapIframe.removeAttribute('height');
+ 
+             // Set width and height styles to 100%
+             googleMapIframe.style.width = '100%';
+             googleMapIframe.style.height = '100%';
+        }
+    });
+</script>

@@ -1,0 +1,29 @@
+{%- if predictive_search.performed -%}
+    <div x-data="{ isOpen: true }" @click.away="isOpen = false" class="relative">
+        
+        
+        <div x-show="isOpen" id="predictive-search-results" class="absolute mt-2 bg-white border rounded shadow-md z-[999] overflow-y-auto max-h-60">
+            <div class="p-2 border-b font-bold">
+                Results for “{{ predictive_search.terms }}”
+            </div>
+            
+            {%- if predictive_search.resources.products.size > 0 -%}
+                <h3 id="predictive-search-products" class="p-2 border-b font-bold">
+                    Products
+                </h3>
+                <ul role="listbox" aria-labelledby="predictive-search-products" class="py-2 px-4">
+                    {%- for product in predictive_search.resources.products -%}
+                        <li role="option" class="mb-2">
+                            <a href="{{ product.url }}" class="flex items-center">
+                                {{ product | image_url: width: 50 | image_tag }}
+                                <span class="ml-2">{{ product.title }}</span>
+                            </a>
+                        </li>
+                    {%- endfor -%}
+                </ul>
+            {%- else -%}
+                <p class="p-4 text-gray-600">No results found for “{{ predictive_search.terms }}”</p>
+            {%- endif -%}
+        </div>
+    </div>
+{%- endif -%}

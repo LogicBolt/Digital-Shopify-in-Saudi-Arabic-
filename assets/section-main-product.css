@@ -1,0 +1,34 @@
+.select{
+    max-width:25rem;
+    position: relative;
+}
+.product-form__input--dropdown label {
+    display: block;
+    margin: 0.5rem 0;
+}
+.select__select {
+    padding: 0 10px 0 10px;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #ffffff;
+    color: #121212;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 2px;
+    height: 3rem;
+    min-height: calc(1px * 2);
+    min-width: calc(7rem + (1px * 2));
+    position: relative;
+    border: 0;
+    border: 1px solid #121212;
+}
+.select .icon-caret, .customer select+svg {
+    height: 0.6rem;
+    pointer-events: none;
+    position: absolute;
+    top: calc(50% - 0.2rem);
+    right: calc(1px + 1.5rem);
+}
+.product-form__quantity{
+    margin-top: 2rem;
+}

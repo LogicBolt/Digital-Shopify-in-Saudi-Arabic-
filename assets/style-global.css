@@ -1,0 +1,48 @@
+@font-face {
+    font-family: "bodyfont";
+    src: url("//quickstart-305fea58.myshopify.com/cdn/fonts/arimo/arimo_n4.37b74ffdd8f32b386933afc2f690ab2b837c67d4.woff2?h1=cXVpY2tzdGFydC0zMDVmZWE1OC5hY2NvdW50Lm15c2hvcGlmeS5jb20&hmac=04ce5b7a1bcef4c421915693e29ac1d6eb3fe5161c9084a9d907571e596548a8") format("woff2");
+  }
+  @font-face {
+    font-family: "headerfont";
+    src: url("//quickstart-305fea58.myshopify.com/cdn/fonts/abel/abel_n4.2b4bc5e26465e4423e1674428c5593b0074dff23.woff2?h1=cXVpY2tzdGFydC0zMDVmZWE1OC5hY2NvdW50Lm15c2hvcGlmeS5jb20&hmac=5f334d79cfcb758597aa936edfddd840930b1c9deb6d7b2513a96bfbb5287ac1") format("woff2");
+  }
+
+
+body {
+    font-family: bodyfont,"sans-serif" !important;
+}
+span, p, label, option, a {
+    font-family: bodyfont,"sans-serif" !important;
+}
+p{
+  line-height: inherit;
+}
+article h1{
+  font-size: 1.875rem !important;
+}
+article h2{
+  font-size: 1.5rem !important;
+}
+article h3{
+  font-size: 1.25rem !important;
+}
+article h4{
+  font-size: 1.125rem !important;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: headerfont, "sans-serif" !important;
+    font-weight: bold !important;
+    line-height: 3rem;
+}
+article p{
+  color: rgb(75 85 99);
+  padding: 0.5rem 0;
+}
+li{
+  color: rgb(75 85 99);
+}
+.bg-primary-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(227 235 247/var(--tw-bg-opacity));
+}
+

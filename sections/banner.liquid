@@ -1,0 +1,66 @@
+<div class="w-full lg:h-[500px] mb-[60px]">
+  <div class="container-x  mx-auto h-full">
+    <div class="items-center h-full relative">
+      
+      <div
+        data-aos="fade-right"
+        class="campaign-countdown h-full w-full mb-5 lg:mb-0"
+        style="background: url({{ section.settings.bgImg | image_url }}) center center / cover no-repeat;background-attachment: fixed;"
+      >
+        <div class="absolute z-10 w-full h-full" style="background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.65) 53%, rgba(255,255,255,0) 100%);"></div> 
+        <a href="{{ section.settings.linkurl }}">
+          <div class="flex  w-full mx-auto max-w-screen-xl items-center h-full xl:p-12 p-5" >
+            
+            <div class="my-auto z-20">
+            <div class="countdown-title mb-4 ">
+              <h2 class="text-[44px] text-black font-medium pb-5">{{ section.settings.txtHeading }}</h2>
+              <p class="text-[18px] lg:w-[490px] md:w-[300px] sm:w-full text-black leading-7">
+                {{ section.settings.txtSubheading }}
+              </p>
+            
+            </div>
+            <div class=" w-[100px] h-8 border-b border-qblack ">
+              <div class=" h-full inline-flex space-x-2  items-center">
+                <span class="text-sm font-600 tracking-wide leading-7">{{ 'general.shop_now' | t }}</span
+                ><span>
+                  <svg width="7" height="11" viewBox="0 0 7 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2.08984" y="0.636719" width="6.94219" height="1.54271" transform="rotate(45 2.08984 0.636719)" fill="#1D1D1D"></rect><rect x="7" y="5.54492" width="6.94219" height="1.54271" transform="rotate(135 7 5.54492)" fill="#1D1D1D"></rect>
+                  </svg>
+                </span>
+              </div>
+            </div>
+        </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Banner",
+  "settings": [
+    {
+        "id": "bgImg",
+        "label": "Background Image",
+        "type": "image_picker"
+      },
+    {
+      "type": "text",
+      "id": "txtHeading",
+      "label": "Heading"
+    },
+    {
+      "id": "txtSubheading",
+      "label": "Sub Heading",
+      "type": "text"
+    },
+    {
+        "id": "linkUrl",
+        "label": "Button Link",
+        "type": "text"
+    }
+  ],
+  "presets": [{ "name": "Banner" }]
+}
+{% endschema %}

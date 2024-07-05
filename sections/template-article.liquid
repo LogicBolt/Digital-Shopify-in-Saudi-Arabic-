@@ -1,0 +1,63 @@
+<div class="container w-full max-w-screen-xl mx-auto px-4 py-10">
+  <h1 class="text-3xl font-bold mb-8">{{ article.title }}</h1>
+
+  
+
+  <div class="">
+    <article class="my-4 shadow">
+      <div class="h-[550px] aspect-w-16 aspect-h-9">
+        {{ article.image | image_url: width: 1600 | image_tag: loading: 'lazy', class: 'object-cover object-top h-full w-full' }}
+      </div>
+      
+      <div class="flex flex-col p-6 pt-2 bg-white">
+        <hr class="my-2 text-sm font-bold border-b-2 border-yellow-500">
+        <p class="pb-3 text-sm">By {{ article.author }}, {{ article.created_at | date: "%Y-%m-%d" }}</p>
+          <article>
+          {{ article.content }}
+          </article>
+      </div>
+    </article>
+  </div>
+  <hr class="my-2 text-sm font-bold border-b-2 border-yellow-500"/>
+
+  <div class="mt-8">
+    <h2 class="text-2xl font-bold mb-4">{{ 'blogs.article.message' | t }}</h2>
+
+    {% for comment in article.comments %}
+      <div class="bg-gray-100 p-4 mb-4 rounded-lg shadow">
+        <h3 class="text-xl font-bold">{{ comment.author }}</h3>
+        <p class="text-gray-700">{{ comment.content }}</p>
+      </div>
+    {% endfor %}
+
+    {% if article.comments_enabled? %}
+      <h2 class="text-2xl font-bold mb-4 mt-8">{{ 'blogs.article.comment_form_title' | t }}</h2>
+      {% form 'new_comment', article %}
+        {{ form.errors | default_errors }}
+      
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="mb-4">
+            <label for="name" class="block text-sm font-semibold text-gray-600">{{ 'blogs.article.name' | t }}</label>
+            <input type="text" name="comment[author]" value="{{ form.author }}" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+          </div>
+  
+          <div class="mb-4">
+            <label for="email" class="block text-sm font-semibold text-gray-600">{{ 'blogs.article.email' | t }}</label>
+            <input type="email" name="comment[email]" value="{{ form.email }}" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+          </div>
+        </div>
+  
+        <div class="mb-4">
+          <label for="comment" class="block text-sm font-semibold text-gray-600">Comment</label>
+          <textarea name="comment[body]" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">{{ form.body }}</textarea>
+        </div>
+      
+        <div>
+          <input type="submit" value="Post Comment" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue active:bg-blue-800">
+        </div>
+      {% endform %}
+    {% else %}
+      <h2 class="text-2xl font-bold mb-4 mt-8">{{ 'blogs.article.disabled_comment' | t }}</h2>
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,63 @@
+{% paginate search.results by 10 %}
+<div class="container w-full max-w-screen-xl mx-auto px-4 py-10">
+  <h1 class="text-3xl font-bold mb-8">{{ 'templates.search.search_for' | t }} "{{ search.terms }}"</h1>
+  {% if search.results_count > 0 %}
+    
+    <ul class="grid md:grid-cols-1 lg:grid-cols-3 sm:grid-cols-1 gap-4">
+      {% for result in search.results %}
+        <!-- item details -->
+        {% if result.object_type == 'page' %}
+            <li class="grid__item">
+                <a href="{{ result.url }}" class="card-wrapper group block">
+
+            <div class="max-w-sm rounded overflow-hidden shadow-lg">
+                <div class="px-6 py-4">
+                  <div class="font-bold text-xl mb-2">{{ result.title }}</div>
+                </div>
+                <div class="px-6 pt-4 pb-2">
+                  <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ 'templates.search.page' | t }}</span>
+              </div>
+              </div>
+           </a>
+        </li>
+        {% elsif result.object_type == 'article' %}
+        <li class="grid__item">
+            <a href="{{ result.url }}" class="card-wrapper  group block">
+                <div class="max-w-sm rounded overflow-hidden shadow-lg">
+                    {{ result.image | image_url: width: 900 | image_tag: loading: 'lazy' }}
+                    <div class="px-6 py-4">
+                      <div class="font-bold text-xl mb-2">{{ result.title }}</div>
+                      <p class="text-gray-700 text-base">
+                        {{ result.content }}
+                      </p>
+                    </div>
+                    <div class="px-6 pt-4 pb-2">
+                      <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ 'blogs.article.blog' | t }}</span>
+                    
+                    </div>
+                  </div>
+              
+            </a>
+        </li>
+      
+        {% else %}
+        <li class="grid__item">
+            {% render 'card-product',
+              card_product: result,
+              media_aspect_ratio: section.settings.image_ratio,
+              show_secondary_image: section.settings.show_secondary_image,
+              show_vendor: section.settings.show_vendor,
+              show_rating: section.settings.show_rating
+            %}
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+    <div class="pagination-wrapper">
+      {% render 'pagination', paginate: paginate%}
+    </div>
+  {% else %}
+    <h1>{{ 'templates.search.no_results' | t }}</h1>
+  {% endif %}
+</div>
+{% endpaginate %}

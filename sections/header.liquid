@@ -1,0 +1,140 @@
+<header class="border-y border-[#e8e8e1]">
+<div class="w-full max-w-screen-xl mx-auto">
+  <header class="header items-center page-width p-4">
+    <div class="header__logo mx-auto my-2 md:my-0 md:mr-auto md:ml-0">
+      {% if section.settings.logo != blank %}
+        <a href="/" class="header__logo">
+          {{ section.settings.logo | image_url: width: 200 | image_tag: loading: 'lazy' }}
+        </a>
+      {% else %}
+        <a href="/" class="header__logo-title">
+          {{ shop.name }}
+        </a>
+      {% endif %}
+    </div>
+ 
+    <nav class="header__menu" x-data>
+      <button class="md:hidden" @click="$dispatch('toggle-menu')" type="button">
+        {% render 'icon-menu', class: 'w-10' %}
+      </button>
+
+      <ul class="header__menu-nav  hidden md:flex justify-center">
+        {% for link in section.settings.menu.links %}
+          <li class="nav__item py-5 px-4 block relative text-black text-lg">
+            <a href="{{ link.url }}" {% if link.active %}aria-current="page"{% endif %}>
+              {{ link.title }}
+            </a>
+    
+            {%- if link.links != blank -%}
+              <ul class="nav__item-submenu absolute z-20  gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 py-3 px-4 min-w-[160px] top-14 left-1/2 transform -translate-x-1/2">
+                {%- for child_link in link.links -%}
+                  <li class="nav__item py-5 px-4 block relative">
+                    <a href="{{ child_link.url }}" {% if child_link.active %}aria-current="page"{% endif %}>
+                      {{ child_link.title }}
+                    </a>
+    
+                    {%- if child_link.links != blank -%}
+                      <ul>
+                        {%- for grandchild_link in child_link.links -%}
+                          <li>
+                            <a href="{{ grandchild_link.url }}" {% if grandchild_link.active %}aria-current="page"{% endif %}>
+                              {{ grandchild_link.title }}
+                            </a>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    {%- endif -%}
+    
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+    
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+
+    <div
+      class="header__icons flex items-center justify-end space-x-5"
+      x-data="{ cart_count: {{ cart.item_count }} }"
+      @cart-count-updated.window="cart_count = $event.detail"
+    >
+       
+      {%- if shop.customer_accounts_enabled -%}
+        <div class="relative account-menu-wrapper z-10">
+          <a
+            href="{{ routes.account_url }}"
+            title="account link"
+            class="header__icon block text-center"
+          >
+            {% render 'icon-account', class: 'w-10 mx-auto' %}
+            <span class="sr-only">
+              {%- liquid
+                if customer
+                  echo 'customer.account_fallback' | t
+                else
+                  echo 'customer.account_fallback' | t
+                endif
+              -%}
+            </span>
+          </a>
+        </div>
+      {%- endif -%}
+
+      <button
+        type="button"
+        title="Cart button"
+        @click="$dispatch('toggle-cart')"
+        class="header__icon text-center relative"
+      >
+        {% render 'icon-cart', class: 'w-10' %}
+        <span class="sr-only">{{ 'templates.cart.cart' | t }}</span>
+        <span
+          x-text="cart_count"
+          class="cart__count min-w-[22px] text-sm min-h-[22px] absolute grid place-content-center rounded-full -top-3 -right-1 text-white bg-black"
+        >
+          {{ cart.item_count }}
+        </span>
+      </button>
+    </div>
+  </header>
+
+  {% render 'mobile-menu' %}
+</div>
+</header>
+<style>
+  .header {
+      Background: {{ section.settings.bg }}
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg",
+      "label": "Header Background Color"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Shop Logo (Width 400Px)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "default": true,
+      "label": "Show Searchbox?"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "Select Menu Top Nav"
+    }
+  ]
+}
+{% endschema %}

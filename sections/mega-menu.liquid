@@ -1,0 +1,184 @@
+<script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
+
+<div class="relative hidden md:block">
+  <div class="container w-full max-w-screen-xl mx-auto p-4">
+    <div class="flex items-center">
+      <div class="flex-grow flex-wrap">
+        <nav role="navigation">
+          <ul class="flex space-x-10 ">
+            {%- for link in section.settings.menu.links -%}
+              <li class="text-zinc-950">
+                <div x-data="{ open: false }">
+                  {%- if link.links != blank -%}
+                    <button
+                      @click="open = !open"
+                      class="flex cursor-pointer focus:outline-none"
+                    >
+                      <!-- Add a button for the dropdown trigger -->
+                      {{ link.title }}
+                      {% render 'icon-arrow-right', class: 'ml-2 h-6 transform rotate-90' %}
+                    </button>
+                    <ul
+                      class="absolute w-full left-0 mt-[20px] bg-white p-4 z-[99] shadow-2xl"
+                      x-show="open"
+                      @click.away="open = false"
+                    >
+                      <!-- First Child -->
+                      <div class="container w-[70%] max-w-screen-xl mx-auto p-4 flex space-x-4">
+                        {%- for child_link in link.links -%}
+                          <li class="flex flex-shrink-0 flex-col" style="flex-basis: 25%">
+                            {% assign image_key = 'menucol' | append: forloop.index0 %}
+                            {% assign image_url = section.settings[image_key] %}
+                            {% if image_url != blank %}
+                              <div class="card_image h-[150px] aspect-w-16 aspect-h-9 mb-3">
+                                <!-- Adjust aspect ratio as needed -->
+                                {{
+                                  image_url
+                                  | image_url: height: 500
+                                  | image_tag:
+                                    loading: 'lazy',
+                                    class: 'object-cover object-top h-full w-full rounded-xl'
+                                }}
+                              </div>
+                            {% else %}
+                              <!-- Dummy Image -->
+                              <div class="card_image flex items-center justify-center h-[150px] aspect-w-16 aspect-h-9 mb-3 bg-gray-300">
+                                {{ 'collection-4' | placeholder_svg_tag: 'h-[150px] aspect-w-16 aspect-h-9' }}
+                              </div>
+                            {% endif %}
+                            <a
+                              href="{{ child_link.url }}"
+                              {% if child_link.active %}
+                                aria-current="page"
+                              {% endif %}
+                              class="font-extrabold text-zinc-950"
+                            >
+                              {{ child_link.title }}
+                            </a>
+                            {%- if child_link.links != blank -%}
+                              <ul class="mt-4">
+                                <!-- Second Child -->
+                                {%- for grandchild_link in child_link.links -%}
+                                  <li class="text-black">
+                                    <a
+                                      href="{{ grandchild_link.url }}"
+                                      {% if grandchild_link.active %}
+                                        aria-current="page"
+                                      {% endif %}
+                                    >
+                                      {{ grandchild_link.title }}
+                                    </a>
+                                  </li>
+                                {%- endfor -%}
+                              </ul>
+                            {%- endif -%}
+                          </li>
+                        {%- endfor -%}
+                      </div>
+                    </ul>
+                  {%- else -%}
+                    <a
+                      href="{{ link.url }}"
+                      {% if link.active %}
+                        aria-current="page"
+                      {% endif %}
+                    >
+                      <!-- Top Link -->
+                      {{ link.title }}
+                    </a>
+                  {%- endif -%}
+                </div>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </nav>
+      </div>
+      <div class="">
+        {% if section.settings.show_search %}
+          <predictive-search>
+            <form action="{{ routes.search_url }}" method="get" role="search" class="search right-0">
+              <div class="relative mx-auto text-black">
+                <!-- <label for="Search">Search</label> -->
+                <input
+                  class="border border-gray-300 bg-gray-50 h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+                  id="Search"
+                  type="search"
+                  name="q"
+                  value="{{ search.terms | escape }}"
+                  role="combobox"
+                  aria-expanded="false"
+                  aria-owns="predictive-search-results"
+                  aria-controls="predictive-search-results"
+                  aria-haspopup="listbox"
+                  aria-autocomplete="list"
+                >
+                <button type="submit" class="absolute top-0 mt-3 right-4">
+                  <svg
+                    class="text-black h-4 w-4 fill-current fill-gray-300"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    version="1.1"
+                    id="Capa_1"
+                    x="0px"
+                    y="0px"
+                    viewBox="0 0 56.966 56.966"
+                    style="enable-background:new 0 0 56.966 56.966;"
+                    xml:space="preserve"
+                    width="512px"
+                    height="512px"
+                  >
+                    <path
+                      d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
+                  </svg>
+                </button>
+                <input name="options[prefix]" type="hidden" value="last">
+
+                <div id="predictive-search" tabindex="-1"></div>
+              </div>
+            </form>
+          </predictive-search>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Mega Menu",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "menucol0",
+      "label": "Image for 1st menu (Width 400Px)"
+    },
+    {
+      "type": "image_picker",
+      "id": "menucol1",
+      "label": "Image for 2nd menu (Width 400Px)"
+    },
+    {
+      "type": "image_picker",
+      "id": "menucol2",
+      "label": "Image for 3rd menu (Width 400Px)"
+    },
+    {
+      "type": "image_picker",
+      "id": "menucol3",
+      "label": "Image for 14th menu (Width 400Px)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "default": true,
+      "label": "Show Searchbox?"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "Select Menu Top Nav"
+    }
+  ],
+  "presets": [{ "name": "Mega Menu" }]
+}
+{% endschema %}

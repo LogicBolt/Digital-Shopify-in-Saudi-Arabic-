@@ -1,0 +1,130 @@
+<div class="my-4" id="sizechart">
+<div class="flex">
+<div>
+  <a class="trigger-pop-up btn text-sm cursor-pointer ">
+    {{ popuptitle }}
+  </a>
+</div>
+<div>
+  <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-size-chart" viewBox="0 0 64 64" style="vertical-align: middle; margin-left: 5px;">
+    <defs><style>.a{fill:none;stroke:#000;stroke-width:2px}</style></defs>
+    <path class="a" d="M22.39 33.53c-7.46 0-13.5-3.9-13.5-8.72s6-8.72 13.5-8.72 13.5 3.9 13.5 8.72a12 12 0 0 1-.22 1.73"></path>
+    <ellipse cx="22.39" cy="24.81" rx="3.28" ry="2.12"></ellipse>
+    <path class="a" d="M8.89 24.81V38.5c0 7.9 6.4 9.41 14.3 9.41h31.92V33.53H22.39m24.39 0v7.44m-8.13-7.44v7.44m-8.13-7.44v7.44m-8.13-7.44v7.44"></path>
+  </svg>
+</div>
+</div>
+
+<div class="pop-up-modal">
+    <div class="pop-up-content">
+      <span class="close-button">&times;</span>
+      <div class="size-chart-content mt-10">{{ sizeChartPage }}</div>
+    </div>
+</div>
+</div>
+  <script>
+    const modal = document.querySelector('.pop-up-modal');
+    const trigger = document.querySelector('.trigger-pop-up');
+    const closeButton = document.querySelector('.close-button');
+  
+    function toggleModal() {
+      modal.classList.toggle('show-pop-up');
+    }
+  
+    function windowOnClick(event) {
+      if (event.target === modal) {
+        toggleModal();
+      }
+    }
+  
+    trigger.addEventListener('click', toggleModal);
+    closeButton.addEventListener('click', toggleModal);
+    window.addEventListener('click', windowOnClick);
+  </script>
+  
+  <style>
+
+    .icon-size-chart {
+      height: 28px;
+      width: 28px;
+  }
+    #sizechart {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    #sizechart td, #customers th {
+      border: 1px solid #f9f9f9;
+      padding: 8px;
+    }
+    
+    #sizechart tr:nth-child(even){background-color: #f2f2f2;}
+    
+    #sizechart tr:hover {background-color: #ddd;}
+    
+    #sizechart th {
+      padding: 10px;
+      text-align: left;
+      background-color: #000;
+      color: white;
+    }
+    .pop-up-modal {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      display: none;
+      transform: scale(1.1);
+      transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+      overflow:auto;
+    }
+    .pop-up-content {
+      position: absolute;
+      top: 8%;
+      left: 50%;
+      transform: translate(-50%, 0);
+      background-color: white;
+      padding: 1rem 1.5rem;
+      width: auto;
+      border-radius: 0.5rem;
+    }
+    .pop-up-content table {
+      table-layout: auto;
+    }
+    .close-button {
+      float: right;
+      width: 1.5rem;
+      line-height: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      border-radius: 0.25rem;
+      background-color: lightgray;
+    }
+    .close-button:hover {
+      background-color: darkgray;
+    }
+    .show-pop-up {
+      z-index: 12;
+      opacity: 1;
+      display: block;
+      transform: scale(1);
+      transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+    }
+    .trigger-pop-up {
+      margin: 10px 0 10px 0;
+      width: 100%;
+    }
+    @media only screen and (max-width: 749px) {
+      .pop-up-content,
+      .size-chart-content table {
+        width: 100%;
+      }
+      .size-chart-content th,
+      .size-chart-content td {
+        padding: 10px;
+      }
+    }
+  </style>

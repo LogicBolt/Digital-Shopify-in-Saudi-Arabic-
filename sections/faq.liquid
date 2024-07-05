@@ -1,0 +1,92 @@
+<div class="container w-full max-w-screen-xl mx-auto px-4 py-10" x-data="{ faqs: [], toggleFAQ: function(index) { this.faqs = this.faqs.map((f, i) => ({ ...f, isOpen: i === index ? !f.isOpen : false })); } }" x-init="() => { faqs = JSON.parse(document.getElementById('faq-data').textContent); faqs[0].isOpen = true; }">
+
+  <h2 class="text-2xl font-bold">{{ 'accessibility.faq' | t }}</h2>
+
+  <div class="leading-loose text-lg mt-6">
+    <template x-for="(faq, index) in faqs" :key="faq.question">
+      <div>
+        <button class="w-full font-bold py-3 flex justify-between items-center mt-4" :class="index !== faqs.length - 1 && 'border-b border-gray-400'" @click="toggleFAQ(index)">
+          <!-- Specs have it that only one component can be open at a time and also you should be able to toggle the open state of the active component too -->
+          <div class="text-left" x-text="faq.question"></div>
+          <svg x-show="!faq.isOpen" class="fill-current" viewBox="0 0 24 24" width="24" height="24">
+            <path class="heroicon-ui" d="M12 22a10 10 0 110-20 10 10 0 010 20zm0-2a8 8 0 100-16 8 8 0 000 16zm1-9h2a1 1 0 010 2h-2v2a1 1 0 01-2 0v-2H9a1 1 0 010-2h2V9a1 1 0 012 0v2z" />
+          </svg>
+          <svg x-show="faq.isOpen" class="fill-current" viewBox="0 0 24 24" width="24" height="24">
+            <path class="heroicon-ui" d="M12 22a10 10 0 110-20 10 10 0 010 20zm0-2a8 8 0 100-16 8 8 0 000 16zm4-8a1 1 0 01-1 1H9a1 1 0 010-2h6a1 1 0 011 1z" />
+          </svg>
+        </button>
+
+        <div class="text-gray-700 text-sm mt-2" x-text="faq.answer" x-show="faq.isOpen"></div>
+      </div>
+    </template>
+  </div>
+
+  <script id="faq-data" type="application/json">
+    [
+      {% for block in section.blocks %}
+        {% assign item = block.settings %}
+        {% if item.question != blank and item.answer != blank %}
+          {
+            "question": "{{ item.question | escape }}",
+            "answer": "{{ item.answer | escape }}",
+            "isOpen": false
+          }{% unless forloop.last %},{% endunless %}
+        {% endif %}
+      {% endfor %}
+    ]
+  </script>
+</div>
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {% for block in section.blocks %}
+        {% assign item = block.settings %}
+        {% if item.question != blank and item.answer != blank %}
+          {
+            "@type": "Question",
+            "name": "{{ item.question | escape }}",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "<p>{{ item.answer | escape }}</p>"
+            }
+          }{% unless forloop.last %},{% endunless %} 
+        {% endif %}
+      {% endfor %}
+
+  ]
+  }
+  </script>
+
+{% schema %}
+{
+	"name": "FAQ",
+	"tag": "section",
+	"class": "spaced-section",
+	"blocks": [
+		{
+			"name": "FAQ Item",
+			"type": "faq",
+			"settings": [
+				{
+					"type": "text",
+					"id": "question",
+					"label": "Question",
+					"default": "Do you have a question?"
+				},
+				{
+					"type": "text",
+					"id": "answer",
+					"label": "Answer",
+					"default": "I have an answer"
+				}
+			]
+		}
+	],
+	"presets": [
+		{ "name": "FAQ Block" }
+	]
+}
+{% endschema %}

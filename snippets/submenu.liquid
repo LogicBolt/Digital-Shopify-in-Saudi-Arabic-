@@ -1,0 +1,13 @@
+{% if submenu and submenu.size > 0 %}
+    <ul class="nav__item-submenu absolute z-20 gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 py-3 px-4 min-w-[160px] top-14 left-1/2 transform -translate-x-1/2">
+      {% for sublink in submenu %}
+        <li>
+          <a class="block py-1 hover:opacity-75" href="{{ sublink.url }}">
+            {{ sublink.title }}
+            {% assign subsubmenu = sublink.links %}
+            {% render 'submenu', submenu: subsubmenu if subsubmenu.size > 0 %}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}

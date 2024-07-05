@@ -1,0 +1,149 @@
+<style>
+    .promo-cardbg{
+        background: rgba(102, 171, 215, 0.06);
+    }
+    .promoInner:after {
+        border: 7px solid transparent;
+        bottom: 0;
+        box-shadow: inset 0 0 0 2px #000;
+        content: '';
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: auto;
+        z-index: 3;
+      }
+      .transition{
+        transition: all .2s ease-out;
+    }
+    
+</style>
+<div class="container max-w-screen-xl mx-auto py-10 px-4 flex flex-col items-center sm:flex-row md:space-x-4">
+    <div class="promo-cardbg relative item-center justify-center p-5 w-full sm:w-1/2 mb-4 sm:mb-0">
+        <a href="{{ section.settings.col1link }}">
+            <div class="promoInner ">
+                <div class="flex md:min-h-[150px] items-center">
+                    <div class="w-full sm:w-1/2 mb-4 sm:mb-0">
+                        <div class="text-center">
+                                {{ section.settings.txttopcol1 }}
+                            <div class="my-2 text-2xl sm:text-3xl font-bold">
+                                {{ section.settings.txtcentercol1 }} 
+                            </div>
+                            <div class="uppercase">
+                                {{ section.settings.txtbottomcol1 }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full min-h-[150px] relative sm:w-1/2 mb-4 sm:mb-0">
+                        <div class="absolute mx-auto overflow-hidden h-[150px]">
+                            {% assign image_url = section.settings.col1img %}
+                            {{
+                                image_url
+                                | image_url: height: 500
+                                | image_tag:
+                                  loading: 'lazy',
+                                  class: 'object-cover object-top w-full'
+                              }}
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </a>
+    </div>
+    <div class="promo-cardbg relative p-5 w-full  sm:w-1/2 mb-4 sm:mb-0">
+        <a href="{{ section.settings.col2link }}">
+        <div class="promoInner ">
+            <div class="flex min-h-[150px] items-center">
+                <div class="w-full sm:w-1/2 mb-4 sm:mb-0">
+                    <div class="text-center">
+                        {{ section.settings.txttopcol2 }}
+                        <div class="my-2 text-2xl sm:text-3xl font-bold">
+                            {{ section.settings.txtcentercol2 }}
+                        </div>
+                        <div class="uppercase">
+                            {{ section.settings.txtbottomcol2 }}
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full min-h-[150px] relative sm:w-1/2 mb-4 sm:mb-0">
+                    <div class="absolute mx-auto overflow-hidden h-[150px]">
+                        {% assign image_url1 = section.settings.col2img %}
+                            {{
+                                image_url1
+                                | image_url: height: 500
+                                | image_tag:
+                                  loading: 'lazy',
+                                  class: 'object-cover object-top w-full'
+                              }}
+                    </div>
+                </div>
+            </div>
+          </div>
+        </a>
+    </div>
+    
+</div>
+{% schema %}
+{
+  "name": "Promo product grid",
+  "tag": "section",
+  "settings": [
+    {
+        "type": "text",
+        "id": "txttopcol1",
+        "label": "1st card heading"
+    },
+    {
+      "type": "text",
+      "id": "txtcentercol1",
+      "label": "1st card sub-heading"
+    },
+    {
+      "type": "text",
+      "id": "txtbottomcol1",
+      "label": "1st card info"
+    },
+    {
+        "id": "col1img",
+        "label": "Image 1st card",
+        "type": "image_picker"
+    },
+    {
+      "id": "col1link",
+      "label": "Button Link 1st card",
+      "type": "text"
+    },
+    {
+        "type": "text",
+        "id": "txttopcol2",
+        "label": "2nd card heading"
+    },
+    {
+      "type": "text",
+      "id": "txtcentercol2",
+      "label": "2nd card sub-heading"
+    },
+    {
+      "type": "text",
+      "id": "txtbottomcol2",
+      "label": "2nd card info"
+    },
+    {
+        "id": "col2img",
+        "label": "Image 2nd card",
+        "type": "image_picker"
+    },
+    {
+      "id": "col2link",
+      "label": "Button Link 2nd card",
+      "type": "text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Promo product grid"
+    }
+  ]
+}
+{% endschema %}

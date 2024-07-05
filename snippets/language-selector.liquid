@@ -1,0 +1,76 @@
+<style>
+  .dropbtn {
+    border: none;
+  }
+  
+  .dropup {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropup-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    bottom: 50px;
+    z-index: 99;
+    border-radius: 0.5rem;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  transform-origin: top;
+  transform: translateY(-10px);
+  }
+  .dropup-content.open {
+    opacity: 1;
+    transform: translateY(0);
+    display: block; /* Show when open class is present */
+  }
+  
+  .dropup-content a {
+    color: black;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropup-content a:hover {background-color: #e8e8e8}
+  
+  .dropup:hover .dropup-content {
+    display: block;
+  }
+  .disclosure:hover .icon-caret {
+    transform: rotate(180deg);
+    
+  }
+  
+  .disclosure__button:hover .icon-caret {
+    transform: rotate(180deg);
+  }
+</style>
+{% if localization.available_languages.size > 1 %}
+  <localization-form>
+    {% form 'localization' %}
+      <div class="disclosure dropup">
+        <button type="button" class="disclosure__button dropbtn" aria-expanded="false" aria-controls="LanguageList">
+          {{ localization.language.endonym_name | capitalize }}
+
+          <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-caret w-3 ml-3" viewBox="0 0 10 6">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
+          </svg>
+        </button>
+
+        <ul id="LanguageList" role="list" class="disclosure__list dropup-content">
+          {% for language in localization.available_languages %}
+            <li class="disclosure__item" tabindex="-1">
+              <a href="#"{% if language.iso_code == localization.language.iso_code %} aria-current="true"{% endif %} hreflang="{{ language.iso_code }}" lang="{{ language.iso_code }}" data-value="{{ language.iso_code }}">
+                {{ language.endonym_name | capitalize }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+
+        <input type="hidden" name="language_code" value="{{ localization.language.iso_code }}">
+      </div>
+    {% endform %}
+  </localization-form>
+{% endif %}

@@ -1,0 +1,71 @@
+<div
+  class="product-recommendations"
+  data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit=4&intent=related"
+>
+  {%- if recommendations.performed? and recommendations.products_count > 0 -%}
+    {% if recommendations.intent == 'related' %}
+      <h2 class="text-black text-xl font-bold mt-8 mb-6">{{ 'products.product.recomended_product' | t }}</h2>
+    {% elsif recommendations.intent == 'complementary' %}
+      <h2 class="text-black text-xl font-bold mt-8 mb-6">{{ 'products.product.suggested_product' | t }}</h2>
+    {% endif %}
+
+
+    <ul class="grid  md:grid-cols-2 lg:grid-cols-4 sm:grid-cols-1 gap-4">
+      {%- for product in recommendations.products -%}
+        <li class="product grid__item py-2">
+          <a href="{{ product.url }}" class="card-wrapper border group block relative bg-white shadow-md bg-clip-border rounded-xl">
+            <div class="card">
+              <div class="card_image h-[250px] aspect-w-16 aspect-h-9">
+              {{ product.featured_media | image_url: width: 900 | image_tag: loading: 'lazy', class:'group-hover:block object-cover object-top h-full w-full rounded-xl' }}
+              </div>
+            </div>
+            <h3 class="card__title p-2">
+              {{ product.title }}
+            </h3>
+            <div class="price__element text-gray-600 px-2 pb-2">
+        
+              <div class="price__element-normal">
+                  <span class="sr-only">{{ 'products.product.price.regular_price' | t }}</span>
+                  {{ product.price | money }}
+              </div>
+          
+      </div>
+      
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+</div>
+
+<script>
+  const handleIntersection = (entries, observer) => {
+    if (!entries[0].isIntersecting) return;
+
+    observer.unobserve(productRecommendationsSection);
+
+    const url = productRecommendationsSection.dataset.url;
+
+    fetch(url)
+      .then(response => response.text())
+      .then(text => {
+        const html = document.createElement('div');
+        html.innerHTML = text;
+        const recommendations = html.querySelector('.product-recommendations');
+
+        if (recommendations && recommendations.innerHTML.trim().length) {
+          productRecommendationsSection.innerHTML = recommendations.innerHTML;
+        }
+      })
+      .catch(e => {
+        console.error(e);
+      });
+  };
+
+  const productRecommendationsSection = document.querySelector('.product-recommendations');
+  const observer = new IntersectionObserver(handleIntersection, {rootMargin: '0px 0px 200px 0px'});
+
+  observer.observe(productRecommendationsSection);
+</script>
+
+

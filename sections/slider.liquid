@@ -1,0 +1,168 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<style> 
+.swiper {
+	width: 100%;
+	height: 80vh;
+  }
+
+  .swiper-slide {
+	text-align: center;
+	font-size: 18px;
+	background: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+  }
+
+  .overlay {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: linear-gradient(to bottom, rgba(14, 29, 51, 0.2), rgba(14, 29, 51, 0.8));
+  }
+  .carousel-cell {
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+  .inner {
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	color: white;
+	text-align: center;
+  }
+	.subtitle {
+	  font-family: $font-family-secondary;
+	  font-size: 2.2rem;
+	  line-height: 1.2em;
+	  font-weight: 200;
+	  font-style: italic;
+	  letter-spacing: 3px;
+	  color: rgba(255, 255, 255, 0.5);
+	  margin-bottom: 5px;
+	}
+
+	.title {
+	  font-family: $font-family-primary;
+	  font-size: 3rem;
+	  line-height: 1.2em;
+	  text-transform: uppercase;
+	  letter-spacing: 3px;
+	  margin-bottom: 40px;
+	}
+	.btn {
+        border: 1px solid #fff;
+        padding: 14px 18px;
+        text-transform: uppercase;
+        font-family: $font-family-primary;
+        font-size: 0.8rem;
+        letter-spacing: 3px;
+        color: #fff;
+        text-decoration: none;
+        transition: all 0.2s ease;
+	}
+	.btn:hover {
+          background: #fff;
+          color: #000;
+      }
+</style>
+
+<div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+		{% for block in section.blocks %}
+      		<div class="swiper-slide">
+				
+				<div class="carousel-cell" style="background-image:url({{ block.settings.slideImg | image_url }});">
+					<div class="overlay"></div>
+					<div class="inner">
+					  <h3 class="subtitle">{{ block.settings.txttitle }}</h3>
+					  <h2 class="title">{{ block.settings.txtsubheading }}</h2>
+					  <a href="{{ block.settings.btnURL }}" target="_blank" class="btn">{{ block.settings.btntitle }}</a>
+					</div>
+				  </div>
+
+			</div>
+		{% endfor %}
+    </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-pagination"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <script>
+	var swiper = new Swiper(".mySwiper", {
+		loop: true,
+		effect: 'slide',
+		autoplay: {
+			delay: 3500,
+			disableOnInteraction: false,
+		},
+		pagination: {
+		  el: ".swiper-pagination",
+		  type: "fraction",
+		},
+		navigation: {
+		  nextEl: ".swiper-button-next",
+		  prevEl: ".swiper-button-prev",
+		},
+	  });
+  </script>
+
+
+
+{% schema %}
+  {
+    "name": "Slider",
+    "settings": [
+		
+	],
+	"blocks": [
+      {
+        "type": "slides",
+        "name": "Slides",
+        "settings": [
+          {
+            "id": "slideImg",
+            "type": "image_picker",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "txttitle",
+            "label": "Heading"
+          },
+		  {
+            "type": "text",
+            "id": "txtsubheading",
+            "label": "Sub Heading"
+          },
+          {
+            "type": "text",
+            "id": "btntitle",
+            "label": "Button Title"
+          },
+          {
+            "type": "text",
+            "id": "btnURL",
+            "label": "URL"
+          }
+        ]
+      }
+    ],
+	"presets": [
+		{
+		  "name": "Hero Slider"
+		}
+	  ]
+  }
+{% endschema %}

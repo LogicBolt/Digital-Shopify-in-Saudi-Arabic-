@@ -1,0 +1,135 @@
+<style>
+  .slideshow {
+    background: #0f0f0f;
+    padding: 0.5rem;
+  }
+
+  .slide {
+    font-size: 12px;
+    text-align: center;
+    color: #fff;
+    width: 70vw; /* Set width to 100% of viewport width */
+    white-space: nowrap; /* Prevent text from wrapping */
+    margin-right: -4vw; /* Remove margin to avoid gaps between slides */
+    display: inline-block; /* Make slides display in a row */
+  }
+</style>
+{% if section.settings.show_newsticker %}
+  <div class="slideshow js-slideshow">
+    {% for block in section.blocks %}
+      <div class="slide">{{ block.settings.text }}</div>
+    {% endfor %}
+  </div>
+{% endif %}
+<script>
+  //
+  //   Variables
+  //
+  //////////////////////////////////////////////////////////////////////
+
+  // Play with this value to change the speed
+  let tickerSpeed = 1;
+
+  let flickity = null;
+  let isPaused = false;
+  const slideshowEl = document.querySelector('.js-slideshow');
+
+  //
+  //   Functions
+  //
+  //////////////////////////////////////////////////////////////////////
+
+  const update = () => {
+    if (isPaused) return;
+    if (flickity.slides) {
+      flickity.x = (flickity.x - tickerSpeed) % flickity.slideableWidth;
+      flickity.selectedIndex = flickity.dragEndRestingSelect();
+      flickity.updateSelectedSlide();
+      flickity.settle(flickity.x);
+    }
+    window.requestAnimationFrame(update);
+  };
+
+  const pause = () => {
+    isPaused = true;
+  };
+
+  const play = () => {
+    if (isPaused) {
+      isPaused = false;
+      window.requestAnimationFrame(update);
+    }
+  };
+
+  //
+  //   Create Flickity
+  //
+  //////////////////////////////////////////////////////////////////////
+
+  flickity = new Flickity(slideshowEl, {
+    autoPlay: false,
+    prevNextButtons: false,
+    pageDots: false,
+    draggable: true,
+    wrapAround: true,
+    selectedAttraction: 0.015,
+    friction: 0.25,
+  });
+  flickity.x = 0;
+
+  //
+  //   Add Event Listeners
+  //
+  //////////////////////////////////////////////////////////////////////
+
+  slideshowEl.addEventListener('mouseenter', pause, false);
+  slideshowEl.addEventListener('focusin', pause, false);
+  slideshowEl.addEventListener('mouseleave', play, false);
+  slideshowEl.addEventListener('focusout', play, false);
+
+  flickity.on('dragStart', () => {
+    isPaused = true;
+  });
+
+  //
+  //   Start Ticker
+  //
+  //////////////////////////////////////////////////////////////////////
+
+  update();
+</script>
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_newsticker",
+      "default": true,
+      "label": "Show Announcement Bar?"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "t:sections.announcement-bar.blocks.announcement.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      {
+        "type": "announcement"
+      }
+    ]
+  }
+}
+{% endschema %}

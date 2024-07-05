@@ -1,0 +1,74 @@
+<div class="w-full bg-[#eef0f4]">
+  <div class="container max-w-screen-xl mx-auto py-10 px-4 flex flex-col items-center sm:flex-row">
+    <div class="w-full sm:w-1/2 mb-4 sm:mb-0">
+      <div class="countdown__content text-center sm:text-left">
+        <div class="countdown__heading">
+          <h2 class="text-2xl sm:text-4xl font-bold">{{ section.settings.saletitle }}</h2>
+        </div>
+        <div class="countdown__richtext mt-4">
+          <p>{{ section.settings.salesubheading }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="w-full sm:w-1/2 flex-1 flex flex-col">
+      {% assign dateStr = section.settings.date_picker %}
+
+      <div
+        class="flex items-center justify-center sm:justify-end space-x-2"
+        x-data="Shopifyfashion.timer(new Date('{{ dateStr }}').getTime())"
+        x-init="init();"
+      >
+        <div class="flex flex-col items-center px-2">
+          <span x-text="time().days" class="text-4xl lg:text-5xl text-black-200">00</span>
+          <span class="text-black-400 mt-2">{{ 'general.sales_counter.lbl_days' | t }}</span>
+        </div>
+        <span class="w-[1px] h-24 bg-gray-400"></span>
+        <div class="flex flex-col items-center px-2">
+          <span x-text="time().hours" class="text-4xl lg:text-5xl text-black-200">23</span>
+          <span class="text-black-400 mt-2">{{ 'general.sales_counter.lbl_hours' | t }}</span>
+        </div>
+        <span class="w-[1px] h-24 bg-gray-400"></span>
+        <div class="flex flex-col items-center px-2">
+          <span x-text="time().minutes" class="text-4xl lg:text-5xl text-black-200">59</span>
+          <span class="text-black-400 mt-2">{{ 'general.sales_counter.lbl_minutes' | t }}</span>
+        </div>
+        <span class="w-[1px] h-24 bg-gray-400"></span>
+        <div class="flex flex-col items-center px-2">
+          <span x-text="time().seconds" class="text-4xl lg:text-5xl text-black-200">28</span>
+          <span class="text-black-400 mt-2">{{ 'general.sales_counter.lbl_seconds' | t }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script></script>
+{% schema %}
+{
+  "name": "Sales Counter",
+  "tag": "section",
+  "settings": [
+    {
+      "id": "saletitle",
+      "label": "Title",
+      "type": "text"
+    },
+    {
+      "type": "text",
+      "id": "salesubheading",
+      "label": "Sub Heading"
+    },
+    {
+      "type": "text",
+      "id": "date_picker",
+      "label": "Ending Date?",
+      "info": "01/31/2024 [MM/DD/YYYY]"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sales Counter"
+    }
+  ]
+}
+{% endschema %}
